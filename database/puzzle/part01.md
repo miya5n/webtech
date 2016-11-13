@@ -1,7 +1,7 @@
 # 会計年度テーブル ~範囲外の日付を入力しないための制約~
 ## 問題1
-- 以下のテーブルに対し、正しい情報だけを持つように制約を設定しろ
-- ただし会計年度を10月1日～9月30日とする
+### 以下のテーブルに対し、正しい情報だけを持つように制約を設定しろ。ただし会計年度を10月1日～9月30日とする
+
 ```sql
 CREATE TABLE FiscalYearTable1(
   fiscal_year   INTEGER,
@@ -10,31 +10,31 @@ CREATE TABLE FiscalYearTable1(
 );
 ```
 
-- FiscalYearTable1:会計年度手テーブル
-- fiscal_year:fiscal_year:会計年度
-- start_date:年度開始日
-- end_date:年度終了日
+```
+FiscalYearTable1:会計年度手テーブル   fiscal_year:fiscal_year:会計年度
+start_date:年度開始日                end_date:年度終了日
+```
 
+- 上記のCREATE文の場合、以下のINSERT文がすべて「OK」となる
 
- 上記のCREATE文の場合、以下のINSERT文がすべて「OK」となる
 ```sql
--- OKになる
+-- OKにする
 INSERT INTO FiscalYearTable1 VALUES (1995, '1994/10/01 00:00:00', '1995/09/30 00:00:00');
--- NGになるはずのデータ
+-- NGにしたいデータ
 INSERT INTO FiscalYearTable1 VALUES (1996, '1995-10-01', '1995-08-30');
--- OKになる
+-- OKにする
 INSERT INTO FiscalYearTable1 VALUES (1997, '1996-10-01', '1997-09-30');
--- OKになる
+-- OKにする
 INSERT INTO FiscalYearTable1 VALUES (1998, '1997-10-01', '1998-09-30');
 
 -- 以下、oracle用
--- OKになる
+-- OKにする
 INSERT INTO FiscalYearTable1 VALUES (1995, to_date('1994-10-01','yyyy/mm/dd'), to_date('1995-09-30','yyyy/mm/dd'));
--- NGになるはずのデータ
+-- NGにしたいデータ
 INSERT INTO FiscalYearTable1 VALUES (1996, to_date('1995-10-01','yyyy/mm/dd'), to_date('1995-08-30','yyyy/mm/dd'));
--- OKになる
+-- OKにする
 INSERT INTO FiscalYearTable1 VALUES (1997, to_date('1996-10-01','yyyy/mm/dd'), to_date('1997-09-30','yyyy/mm/dd'));
--- OKになる
+-- OKにする
 INSERT INTO FiscalYearTable1 VALUES (1998, to_date('1997-10-01','yyyy/mm/dd'), to_date('1998-09-30','yyyy/mm/dd'));
 
 ```
